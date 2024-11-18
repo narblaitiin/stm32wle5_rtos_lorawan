@@ -44,7 +44,7 @@ int8_t app_flash_init(struct nvs_fs *fs)
 	}
 
 	// cleaning data storage partition
-	(void)nvs_delete(fs, NVS_DEVNONCE_ID);
+//	(void)nvs_delete(fs, NVS_DEVNONCE_ID);
 }
 
 //  ======== app_flash_init_param ===============================

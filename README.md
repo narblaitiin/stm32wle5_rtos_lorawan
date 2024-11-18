@@ -12,6 +12,23 @@ LoRaWAN Device EUI, Join EUI and Application Key should be entered into the app_
 
 **Board used** : Original MAMWLExx board, powered by battery/solar panel. (see 6sens_project_stm32wl repository/hardware part, for more information.)
 
+## General Information of Application
+You will need to register new devices in your application (with OTAA activation method). Once this is done, retain the TTN Device Address(4 Bytes), the TTN Network Key(16 Bytes) and the TTN Application Key (16 Bytes). You also have to make sure that the activation method is OTAA.
+
+    - After you account was created, you have to create a new application
+    - After that, you have to add a new end device on this application. You have to complete the various fields using the available data below in manually mode :
+        Frequency Plan                  Europe 863-870 MHz (SF9 for RX2 - Recommended)
+        LoRaWAN Version                 MAC V1.0.4
+        Regional Parameter Version      PHY RP002 Regional Parameters 1.0.3
+        Activation by personalization   OTAA
+        Application ID                  give a name
+        JoinEUI                         00 00 00 00 00 00 00 00
+        DevUI number 1                  random value for 8-byte address
+        Device                          random value for 4-byte address
+        AppKey                          random value for 16-byte address
+        NwkSKey                         random value for 16-byte address
+        AppSKey                         random value for 16-byte address
+
 ## Building and Running
 The following commands clean build folder, build and flash the sample:
 

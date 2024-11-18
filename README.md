@@ -18,8 +18,8 @@ You will need to register new devices in your application (with OTAA activation 
     - After you account was created, you have to create a new application
     - After that, you have to add a new end device on this application. You have to complete the various fields using the available data below in manually mode :
         Frequency Plan                  Europe 863-870 MHz (SF9 for RX2 - Recommended)
-        LoRaWAN Version                 MAC V1.0.4
-        Regional Parameter Version      PHY RP002 Regional Parameters 1.0.3
+        LoRaWAN Version                 MAC V1.0.3
+        Regional Parameter Version      RP001 Regional Parameters 1.0.3 revision A
         Activation by personalization   OTAA
         Application ID                  give a name
         JoinEUI                         00 00 00 00 00 00 00 00

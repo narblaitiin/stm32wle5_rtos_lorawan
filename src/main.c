@@ -17,7 +17,7 @@ void test_work_handler(struct k_work *work_rtc)
 	const struct device *dev;
 
 	printk("lorawan handler called\n");
-	app_lorawan_handler(dev, grn_min, grn_max, count);
+	app_lorawan_handler(dev, grn_min, grn_max, grn_cnt);
 }
 K_WORK_DEFINE(test_work, test_work_handler);
 

@@ -18,8 +18,8 @@
 
 //  ======== defines ==============================================
 /* led control */
-#define LED_TX                  DT_ALIAS(led0)      // declared in device tree 
-#define LED_RX                  DT_ALIAS(led1)      // declared in device tree 
+#define LED_TX                  DT_ALIAS(ledtx)      // declared in device tree 
+#define LED_RX                  DT_ALIAS(ledrx)      // declared in device tree 
 #define DELAY 			        K_MSEC(5000)
 
 /* customize based on network configuration */

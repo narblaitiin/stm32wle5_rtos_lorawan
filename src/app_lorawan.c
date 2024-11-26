@@ -135,14 +135,12 @@ int8_t app_lorawan_init(const struct device *dev)
 }
 
 //  ======== app_lorawan_handler ================================
-int8_t app_lorawan_handler(const struct device *dev,int8_t min, int8_t max, int8_t count)
+int8_t app_lorawan_handler(int8_t min, int8_t max, int8_t count)
 {
     int8_t data_tx[count];
     int8_t ret;
 
-    dev = DEVICE_DT_GET(DT_ALIAS(lora0));
-
-    for (int8_t itr = 0; itr < count; itr++) {
+	for (int8_t itr = 0; itr < count; itr++) {
         data_tx[itr] = sys_rand8_get() % (max - min + 1) + min;
     }
 
@@ -164,10 +162,7 @@ int8_t app_lorawan_handler(const struct device *dev,int8_t min, int8_t max, int8
 	if (ret < 0) {
 		return 0;
 	}
-	printk("data sent !\n");
-
-
-    
+	printk("data sent !\n"); 
 }
   
     

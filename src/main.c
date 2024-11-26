@@ -45,7 +45,7 @@ int8_t main(void)
 
 	// beginning forever loop (polling mode)
 	while (1) {
-		app_lorawan_handler(dev, grn_min, grn_max, grn_cnt);
+		app_lorawan_handler(grn_min, grn_max, grn_cnt);
 		k_sleep(DELAY);
 	}
 

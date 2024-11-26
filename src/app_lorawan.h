@@ -12,6 +12,7 @@
 #include <zephyr/device.h>
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/lora.h>
 #include <zephyr/lorawan/lorawan.h>
 #include <zephyr/random/random.h>
 #include <time.h>

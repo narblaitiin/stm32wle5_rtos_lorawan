@@ -9,7 +9,7 @@
 #include "app_flash.h"
 
 //  ======== interrupt sub-routine ===============================
-void test_work_handler(struct k_work *work_rtc)
+/*void test_work_handler(struct k_work *work_rtc)
 {
 	int8_t grn_min = 0;
 	int8_t grn_max = 3;
@@ -26,12 +26,15 @@ void test_timer_handler(struct k_timer *rtc_dum)
 	k_work_submit(&test_work);
 }
 K_TIMER_DEFINE(test_timer, test_timer_handler, NULL);
-
+*/
 //  ======== main ===============================================
 int8_t main(void)
 {
 	struct nvs_fs fs;
 	const struct device *dev;
+	int8_t grn_min = 0;
+	int8_t grn_max = 3;
+	int8_t grn_cnt = 10;
 
 	// initialization of all devices
 	app_flash_init(&fs);
@@ -40,7 +43,11 @@ int8_t main(void)
 
 	printk("Geophone Measurement Simulation and Process Information\nBoard: %s\n", CONFIG_BOARD);
 
-	// beginning of interrupt subroutine timer
-	k_timer_start(&test_timer, K_NO_WAIT, K_MINUTES(30));		// for test
+	// beginning forever loop (polling mode)
+	while (1) {
+		app_lorawan_handler(dev, grn_min, grn_max, grn_cnt);
+		k_sleep(DELAY);
+	}
+
 	return 0;
 }

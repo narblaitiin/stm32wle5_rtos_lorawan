@@ -35,7 +35,8 @@ static const struct gpio_dt_spec led_rx = GPIO_DT_SPEC_GET(LED_RX, gpios);
 //  ======== app_loarwan_init ===================================
 int8_t app_lorawan_init(const struct device *dev)
 {
-    struct lorawan_join_config join_cfg;
+    struct lora_modem_config config;
+	struct lorawan_join_config join_cfg;
 	static struct nvs_fs fs;
 	uint16_t dev_nonce = 0u;
 
@@ -67,6 +68,14 @@ int8_t app_lorawan_init(const struct device *dev)
 	if (!device_is_ready(dev)) {
 		printk("%s: device not ready\n", dev->name);
 		return 0;
+	}
+
+	config.tx_power = 17;
+	// setup of lora phy layer
+	ret = lora_config(dev, &config);
+	if (ret < 0) {
+		printk("lora device configuration failed. error: %d\n", ret);
+		return false;
 	}
 
 	printk("starting lorawan stack\n");

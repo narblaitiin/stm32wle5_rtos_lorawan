@@ -4,7 +4,7 @@
 This application contains example code to allow testing of LoRaWAN Network Application. This code also allows to test a physical link from the node to the gateway then from the gateway to TTN. The packets sent have the following characteristics:
 
     - Timer : packets every 30 minutes
-    - Random value with the range min = 0 to max = 3 like values from ADC
+    - Random value with the range from min = 0V to max = 3.3V like values from ADC
     - Number of packets : 10
     - Number of nodes : 5
 

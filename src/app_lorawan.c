@@ -144,13 +144,14 @@ int8_t app_lorawan_init(const struct device *dev)
 }
 
 //  ======== app_lorawan_handler ================================
-int8_t app_lorawan_handler(int8_t min, int8_t max, int8_t count)
+int8_t app_lorawan_handler(uint16_t min, uint16_t max, int8_t count)
 {
-    int8_t data_tx[count];
+    uint16_t data_tx[count];
     int8_t ret;
 
 	for (int8_t itr = 0; itr < count; itr++) {
-        data_tx[itr] = sys_rand8_get() % (max - min + 1) + min;
+        data_tx[itr] = sys_rand16_get() % (max - min + 1) + min;
+		printk("random value: %"PRId32" mV\n", data_tx[itr]);
     }
 
     // transmission of packets on lorawan protocole

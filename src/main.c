@@ -32,8 +32,8 @@ int8_t main(void)
 {
 	struct nvs_fs fs;
 	const struct device *dev;
-	int8_t grn_min = 0;
-	int8_t grn_max = 3;
+	uint16_t grn_min = 0;
+	uint16_t grn_max = 3300;
 	int8_t grn_cnt = 10;
 
 	// initialization of all devices

@@ -9,6 +9,9 @@
  #include "app_flash.h"
 
 //  ======== globals ============================================
+static const struct gpio_dt_spec led_tx = GPIO_DT_SPEC_GET(LED_TX, gpios);
+static const struct gpio_dt_spec led_rx = GPIO_DT_SPEC_GET(LED_RX, gpios);
+
 // downlink callback
 static void dl_callback(uint8_t port, bool data_pending, int16_t rssi, int8_t snr, uint8_t len, const uint8_t *data)
 {
@@ -20,7 +23,7 @@ static void dl_callback(uint8_t port, bool data_pending, int16_t rssi, int8_t sn
 	printk("port: %d, pending: %d, RSSI: %ddB, SNR: %dBm\n", port, data_pending, rssi, snr);
 }
 
-// adr change callback
+// ADR change callback
 static void lorwan_datarate_changed(enum lorawan_datarate dr)
 {
 	uint8_t unused, max_size;
@@ -29,8 +32,6 @@ static void lorwan_datarate_changed(enum lorawan_datarate dr)
 	printk("new datarate: DR_%d, max payload: %d\n", dr, max_size);
 }
 
-static const struct gpio_dt_spec led_tx = GPIO_DT_SPEC_GET(LED_TX, gpios);
-static const struct gpio_dt_spec led_rx = GPIO_DT_SPEC_GET(LED_RX, gpios);
 
 //  ======== app_loarwan_init ===================================
 int8_t app_lorawan_init(const struct device *dev)
@@ -70,24 +71,21 @@ int8_t app_lorawan_init(const struct device *dev)
 		return 0;
 	}
 
-	config.tx_power = 17;
-	// setup of lora phy layer
-	ret = lora_config(dev, &config);
-	if (ret < 0) {
-		printk("lora device configuration failed. error: %d\n", ret);
-		return false;
-	}
-
 	printk("starting lorawan stack\n");
     // starting device
 	ret = lorawan_set_region(LORAWAN_REGION_EU868);
+	if (ret < 0) {
+		printk("lorawan_set_region failed: %d\n", ret);
+		return 0;
+	}
+
 	ret = lorawan_start();
 	if (ret < 0) {
 		printk("lorawan_start failed. error: %d\n", ret);
 		return 0;
 	}
 
-     // enable adr
+     // enable ADR
     lorawan_enable_adr(true);
 
 	// enable callbacks
@@ -144,22 +142,20 @@ int8_t app_lorawan_init(const struct device *dev)
 }
 
 //  ======== app_lorawan_handler ================================
-int8_t app_lorawan_handler(uint8_t min, uint8_t max, int8_t count)
+int8_t app_lorawan_handler(uint16_t min, uint16_t max, int8_t count)
 {
     uint16_t data_tx[count];
     int8_t ret;
 
 	for (int8_t itr = 0; itr < count; itr++) {
-        data_tx[itr] = sys_rand8_get() % (max - min + 1) + min;
+        data_tx[itr] = sys_rand16_get() % (max - min + 1) + min;
 		printk("random value: %d mV\n", data_tx[itr]);
     }
 
     // transmission of packets on lorawan protocole
 	printk("sending data...\n");
-	char data[] = {'h', 'e', 'l', 'l', 'o', 'w', 'o', 'r', 'l', 'd'};
-//	ret = lorawan_send(2, data_tx, sizeof(data_tx), LORAWAN_MSG_CONFIRMED);
-	ret = lorawan_send(2, data, sizeof(data), LORAWAN_MSG_CONFIRMED);
-	printk("data sent 1!\n");
+
+	ret = lorawan_send(2, data_tx, sizeof(data_tx), LORAWAN_MSG_CONFIRMED);
 	if (ret == -EAGAIN) {
 			printk("lorawan_send failed: %d. continuing...\n", ret);
 			k_sleep(DELAY);
@@ -169,13 +165,12 @@ int8_t app_lorawan_handler(uint8_t min, uint8_t max, int8_t count)
 		k_sleep(DELAY);
 		return 0;;
 	}
-	printk("data sent 2!\n");
     // flashing of the LED when a packet is transmitted
 	ret = gpio_pin_toggle_dt(&led_tx);
 	if (ret < 0) {
 		return 0;
 	}
-	printk("data sent 3!\n"); 
+	printk("data sent!\n"); 
 }
   
     

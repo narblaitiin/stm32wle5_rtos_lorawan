@@ -140,37 +140,5 @@ int8_t app_lorawan_init(const struct device *dev)
 	} while (ret != 0);
     return 0;
 }
-
-//  ======== app_lorawan_handler ================================
-int8_t app_lorawan_handler(uint16_t min, uint16_t max, int8_t count)
-{
-    uint16_t data_tx[count];
-    int8_t ret;
-
-	for (int8_t itr = 0; itr < count; itr++) {
-        data_tx[itr] = sys_rand16_get() % (max - min + 1) + min;
-		printk("random value: %d mV\n", data_tx[itr]);
-    }
-
-    // transmission of packets on lorawan protocole
-	printk("sending data...\n");
-
-	ret = lorawan_send(2, data_tx, sizeof(data_tx), LORAWAN_MSG_CONFIRMED);
-	if (ret == -EAGAIN) {
-			printk("lorawan_send failed: %d. continuing...\n", ret);
-			k_sleep(DELAY);
-			return 0;
-	} else if (ret < 0) {
-		printk("lorawan_send failed: %d. continuing...\n", ret);
-		k_sleep(DELAY);
-		return 0;;
-	}
-    // flashing of the LED when a packet is transmitted
-	ret = gpio_pin_toggle_dt(&led_tx);
-	if (ret < 0) {
-		return 0;
-	}
-	printk("data sent!\n"); 
-}
   
     

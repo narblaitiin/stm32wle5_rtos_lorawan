@@ -49,9 +49,9 @@ int8_t main(void)
 				k_sleep(DELAY);
 			continue;
 		} else if (ret < 0) {
-		printk("lorawan_send failed: %d.\n", ret);
-		k_sleep(DELAY);
-		return (-1);
+			printk("lorawan_send failed: %d.\n", ret);
+			k_sleep(DELAY);
+			return (-1);
 		}
 
     	// flashing of the LED when a packet is transmitted

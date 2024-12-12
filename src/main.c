@@ -8,7 +8,6 @@
 #include "app_lorawan.h"
 #include "app_flash.h"
 
-
 //  ======== globals ============================================
 static const struct gpio_dt_spec led_tx = GPIO_DT_SPEC_GET(LED_TX, gpios);
 static const struct gpio_dt_spec led_rx = GPIO_DT_SPEC_GET(LED_RX, gpios);
